@@ -126,7 +126,7 @@ python embed-and-vec-search/vector_search_api.py &
 
 # Start RAG Orchestrator
 cd rag-orchestrator
-python app.py
+python api.py
 ```
 
 ## 📦 Technology Stack
