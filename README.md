@@ -190,11 +190,8 @@ MedLaw/
 
 ## 📚 Documentation
 
-- **[API Documentation](api-documentation.md)** - Complete API reference
-- **[Deployment Guide](DEPLOY.md)** - Production deployment instructions
-- **[Setup Guide](SETUP_GUIDE.md)** - Detailed setup instructions
-- **[Test Plan](TEST_PLAN.md)** - Testing strategy and results
-- **[Engineering Report](engineering-report.md)** - Technical architecture
+- **[API Documentation](api-documentation.md)** - Complete API reference with all endpoints
+- **[Engineering Report](engineering-report.md)** - Technical architecture and implementation details
 - **[Frontend README](frontend/README.md)** - Frontend development guide
 - **[Backend README](backend/README.md)** - Backend development guide
 - **[Pipeline README](pipeline/README.md)** - AI pipeline overview
@@ -233,20 +230,44 @@ cd pipeline && black . && flake8
 
 **Frontend (Vercel)**
 ```bash
+# Deploy to Vercel
 vercel --prod
+
+# Environment Variables Required:
+# - NEXT_PUBLIC_API_URL
+# - NEXT_PUBLIC_FIREBASE_* (all Firebase config)
 ```
 
 **Backend (Render/Railway)**
-- Set environment variables in dashboard
-- Connect GitHub repository
-- Auto-deploy on push to main
+```bash
+# Service Configuration:
+# - Service Type: Web Service (Node 18)
+# - Build Command: npm install && npm run build
+# - Start Command: npm start
+# - Port: 3001
+
+# Environment Variables Required:
+# PORT, CORS_ORIGIN, MONGODB_URI, FIREBASE_PROJECT_ID,
+# FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY, LLM_PROVIDER,
+# GROQ_API_KEY/OPENAI_API_KEY, PYTHON_RAG_URL,
+# RATE_LIMIT_WINDOW_MS, RATE_LIMIT_MAX_REQUESTS
+```
 
 **Pipeline (Render/AWS EC2)**
-- Deploy as separate Python service
-- Ensure FAISS index is persisted
-- Configure CORS for cross-origin requests
+```bash
+# Build Command: pip install -r pipeline/requirements.txt
+# Start Command: python pipeline/embed-and-vec-search/vector_search_api.py
+# Persistent Volume: Mount for vector_index directory
+# CORS: Configure for cross-origin requests from backend
 
-See [DEPLOY.md](DEPLOY.md) for detailed deployment instructions.
+# Environment Variables:
+# LLM_PROVIDER, GROQ_API_KEY, LLM_MODEL, VECTOR_SEARCH_URL
+```
+
+**DNS/HTTPS**
+- Vercel provides managed HTTPS for frontend
+- Render/Railway provides managed HTTPS for backend services
+- Configure CORS_ORIGIN to match your production frontend URL
 
 ## 📊 Usage Examples
 
